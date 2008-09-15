@@ -1,5 +1,5 @@
 --- 
-abstract: ~
+abstract: for App::CLI::Extension config plugin module
 author: 
   - Akira Horimoto
 build_requires: 
@@ -21,4 +21,4 @@ requires:
   Path::Class: 0
   YAML::Syck: 0
   perl: 5.8.0
-version: 0.01
+version: 0.02

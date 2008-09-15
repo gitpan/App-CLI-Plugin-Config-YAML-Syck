@@ -1,4 +1,7 @@
 Revision history for Perl extension App::CLI::Extension::Plugin::Config::YAML::Syck
 
+0.02  Mon Sep 15 14:57:21 2008
+        - pod spell miss 
+
 0.01  Sun Sep 14 22:54:48 2008
         - original version

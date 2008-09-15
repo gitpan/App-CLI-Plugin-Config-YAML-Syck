@@ -4,11 +4,11 @@ package App::CLI::Plugin::Config::YAML::Syck;
 
 =head1 NAME
 
-App::CLI::Plugin::YAML::Syck - for App::CLI::Extension config plugin module
+App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin module
 
 =head1 VERSION
 
-0.01
+0.02
 
 =head1 SYNOPSIS
 
@@ -86,7 +86,7 @@ use NEXT;
 use Path::Class;
 use YAML::Syck;
 
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 our @CONFIG_SEARCH_PATH = ("/etc", "/usr/local/etc", $ENV{HOME});
 
 =pod
