@@ -8,12 +8,12 @@ App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin mod
 
 =head1 VERSION
 
-0.02
+0.1
 
 =head1 SYNOPSIS
 
-  # YourApp.pm
-  package YourApp;
+  # MyApp.pm
+  package MyApp;
 
   use strict;
   use base qw(App::CLI::Extension);
@@ -28,12 +28,12 @@ App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin mod
 
 
   # /path/to/config.yaml
-  ---
-  name: kurt
-  age:  27
+  # ---
+  # name: kurt
+  # age:  29
 
-  # YourApp/Hello.pm
-  package YourApp:Hello;
+  # MyApp/Hello.pm
+  package MyApp::Hello;
 
   use strict;
   use base qw(App::CLI::Command);
@@ -45,16 +45,16 @@ App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin mod
       print "age is " . "$self->config->{age}\n";
   }
 
-  # yourapp
+  # myapp
   #!/usr/bin/perl
 
   use strict;
-  use YourApp;
+  use MyApp;
 
-  YourApp->dispatch;
+  MyApp->dispatch;
 
   # execute
-  [kurt@localhost ~] youapp hello
+  [kurt@localhost ~] ./myapp hello
   Hello! my name is kurt
   age is 27
 
@@ -62,31 +62,34 @@ App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin mod
 
 App::CLI::Extension YAML::Syck Configuration plugin module
 
-The priority of the config file (name of the execute file in the case of [yourapp])
+The priority of the config file (name of the execute file in the case of *myapp*)
 
-1. /etc/yourapp.yaml
+1. /etc/myapp.yaml
 
-2. /usr/local/etc/yourapp.yaml
+2. /usr/local/etc/myapp.yaml
 
-3. $ENV{HOME}/.yourapp.yaml
+3. $HOME/.myapp.yaml
 
-4. command line option
+4. $APPCLI_CONFIGFILE(environ variable. if exists)
 
-   yourapp hello --config_file=/path/to/config.yaml
+5. command line option
 
-5. config method setting
+   myapp hello --config_file=/path/to/config.yaml
+
+6. config method setting
    
    __PACKAGE__->config(config_file => "/path/to/config.yaml");
 
 =cut
 
 use strict;
-use 5.8.0;
+use 5.008;
 use NEXT;
-use Path::Class;
+use FindBin qw($Script);
+use File::Spec;
 use YAML::Syck;
 
-our $VERSION = 0.02;
+our $VERSION = 0.1;
 our @CONFIG_SEARCH_PATH = ("/etc", "/usr/local/etc", $ENV{HOME});
 
 =pod
@@ -100,14 +103,18 @@ our @CONFIG_SEARCH_PATH = ("/etc", "/usr/local/etc", $ENV{HOME});
 sub setup {
 
     my $self = shift;
-    my $config_file_name = file($0)->basename . ".yaml";
+    my $config_file_name = "${Script}.yml";
 
     foreach my $search_path(@CONFIG_SEARCH_PATH){
 
-        my $file = file($search_path, ($search_path eq $ENV{HOME}) ? ".$config_file_name" : $config_file_name);
+        my $file = File::Spec->catfile($search_path, (($search_path eq $ENV{HOME}) ? ".$config_file_name" : $config_file_name));
         if(-e $file && -f $file){
             $self->config(LoadFile($file));
         }
+    }
+
+    if(exists $ENV{APPCLI_CONFIGFILE} && defined $ENV{APPCLI_CONFIGFILE}){
+        $self->config(LoadFile($ENV{APPCLI_CONFIGFILE}));
     }
     
     if(exists $self->{config_file} && defined $self->{config_file}){
@@ -127,7 +134,7 @@ __END__
 
 =head1 SEE ALSO
 
-L<App::CLI::Extension> L<NEXT> L<Path::Class> L<YAML::Syck>
+L<App::CLI::Extension> L<NEXT> L<YAML::Syck>
 
 =head1 AUTHOR
 

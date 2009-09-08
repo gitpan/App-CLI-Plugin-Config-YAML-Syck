@@ -1,4 +1,4 @@
-package MyCLIConfigOption::YAMLTest;
+package MyAppOption::YAMLTest;
 
 use strict;
 use base qw(App::CLI::Command);

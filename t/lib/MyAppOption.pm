@@ -1,4 +1,4 @@
-package MyCLIConfigOption;
+package MyAppOption;
 
 use strict;
 use base qw(App::CLI::Extension);
