@@ -8,7 +8,7 @@ App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin mod
 
 =head1 VERSION
 
-0.1
+0.2
 
 =head1 SYNOPSIS
 
@@ -30,7 +30,7 @@ App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin mod
   # /path/to/config.yaml
   # ---
   # name: kurt
-  # age:  29
+  # age:  27
 
   # MyApp/Hello.pm
   package MyApp::Hello;
@@ -64,21 +64,21 @@ App::CLI::Extension YAML::Syck Configuration plugin module
 
 The priority of the config file (name of the execute file in the case of *myapp*)
 
-1. /etc/myapp.yaml
+1. /etc/myapp.yml
 
 2. /usr/local/etc/myapp.yaml
 
-3. $HOME/.myapp.yaml
+3. $HOME/.myapp.yml
 
 4. $APPCLI_CONFIGFILE(environ variable. if exists)
 
 5. command line option
 
-   myapp hello --config_file=/path/to/config.yaml
+   myapp hello --config_file=/path/to/config.yml
 
 6. config method setting
    
-   __PACKAGE__->config(config_file => "/path/to/config.yaml");
+   __PACKAGE__->config(config_file => "/path/to/config.yml");
 
 =cut
 
@@ -89,7 +89,7 @@ use FindBin qw($Script);
 use File::Spec;
 use YAML::Syck;
 
-our $VERSION = 0.1;
+our $VERSION = 0.2;
 our @CONFIG_SEARCH_PATH = ("/etc", "/usr/local/etc", $ENV{HOME});
 
 =pod
@@ -145,7 +145,7 @@ Akira Horimoto
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
-Copyright (C) 2008 Akira Horimoto
+Copyright (C) 2009 Akira Horimoto
 
 =cut
 
