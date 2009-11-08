@@ -10,7 +10,7 @@ our $RESULT;
 my $result = {a => "var", b => {a => 1, b => 2, c => 3}, c => ["a", "b", "c"]};
 
 {
-    local *ARGV = ["yaml", "--config_file=t/etc/config.yaml"];
+    local *ARGV = ["yaml", "--configfile=t/etc/config.yaml"];
     MyAppOption->dispatch;
 }
 

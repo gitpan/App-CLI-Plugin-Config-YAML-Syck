@@ -8,7 +8,7 @@ App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin mod
 
 =head1 VERSION
 
-0.2
+0.3
 
 =head1 SYNOPSIS
 
@@ -74,7 +74,7 @@ The priority of the config file (name of the execute file in the case of *myapp*
 
 5. command line option
 
-   myapp hello --config_file=/path/to/config.yml
+   myapp hello --configfile=/path/to/config.yml
 
 6. config method setting
    
@@ -89,7 +89,7 @@ use FindBin qw($Script);
 use File::Spec;
 use YAML::Syck;
 
-our $VERSION = 0.2;
+our $VERSION = 0.3;
 our @CONFIG_SEARCH_PATH = ("/etc", "/usr/local/etc", $ENV{HOME});
 
 =pod
@@ -117,8 +117,8 @@ sub setup {
         $self->config(LoadFile($ENV{APPCLI_CONFIGFILE}));
     }
     
-    if(exists $self->{config_file} && defined $self->{config_file}){
-        $self->config(LoadFile($self->{config_file}));
+    if(exists $self->{configfile} && defined $self->{configfile}){
+        $self->config(LoadFile($self->{configfile}));
     }
     
     if(exists $self->config->{config_file} && defined $self->config->{config_file}){

@@ -2,7 +2,7 @@ package MyAppOption::YAMLTest;
 
 use strict;
 use base qw(App::CLI::Command);
-use constant options => ("config_file=s" => "config_file");
+use constant options => ("configfile=s" => "configfile");
 
 sub run {
 
