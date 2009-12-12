@@ -8,7 +8,7 @@ App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin mod
 
 =head1 VERSION
 
-0.3
+1.0
 
 =head1 SYNOPSIS
 
@@ -25,34 +25,34 @@ App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin mod
   __PACKAGE__->config( config_file => "/path/to/config.yaml");
   
   1;
-
-
+  
+  
   # /path/to/config.yaml
   # ---
   # name: kurt
   # age:  27
-
+  
   # MyApp/Hello.pm
   package MyApp::Hello;
-
+  
   use strict;
   use base qw(App::CLI::Command);
-
+  
   sub run {
-
-      my($self, @args) = @_;
+  
+      my($self, @argv) = @_;
       print "Hello! my name is " . $self->config->{name} . "\n";
       print "age is " . "$self->config->{age}\n";
   }
-
+  
   # myapp
   #!/usr/bin/perl
-
+  
   use strict;
   use MyApp;
-
+  
   MyApp->dispatch;
-
+  
   # execute
   [kurt@localhost ~] ./myapp hello
   Hello! my name is kurt
@@ -84,12 +84,11 @@ The priority of the config file (name of the execute file in the case of *myapp*
 
 use strict;
 use 5.008;
-use NEXT;
 use FindBin qw($Script);
 use File::Spec;
 use YAML::Syck;
 
-our $VERSION = 0.3;
+our $VERSION = '1.0';
 our @CONFIG_SEARCH_PATH = ("/etc", "/usr/local/etc", $ENV{HOME});
 
 =pod
@@ -102,30 +101,29 @@ our @CONFIG_SEARCH_PATH = ("/etc", "/usr/local/etc", $ENV{HOME});
 
 sub setup {
 
-    my $self = shift;
-    my $config_file_name = "${Script}.yml";
+	my($self, @argv) = @_;
+	my $config_file_name = "${Script}.yml";
 
-    foreach my $search_path(@CONFIG_SEARCH_PATH){
+	foreach my $search_path(@CONFIG_SEARCH_PATH){
 
-        my $file = File::Spec->catfile($search_path, (($search_path eq $ENV{HOME}) ? ".$config_file_name" : $config_file_name));
-        if(-e $file && -f $file){
-            $self->config(LoadFile($file));
-        }
-    }
+		my $file = File::Spec->catfile($search_path, (($search_path eq $ENV{HOME}) ? ".$config_file_name" : $config_file_name));
+		if(-e $file && -f $file){
+			$self->config(LoadFile($file));
+		}
+	}
 
-    if(exists $ENV{APPCLI_CONFIGFILE} && defined $ENV{APPCLI_CONFIGFILE}){
-        $self->config(LoadFile($ENV{APPCLI_CONFIGFILE}));
-    }
+	if(exists $ENV{APPCLI_CONFIGFILE} && defined $ENV{APPCLI_CONFIGFILE}){$self->config(LoadFile($ENV{APPCLI_CONFIGFILE}));
+	}
     
-    if(exists $self->{configfile} && defined $self->{configfile}){
-        $self->config(LoadFile($self->{configfile}));
-    }
-    
-    if(exists $self->config->{config_file} && defined $self->config->{config_file}){
-        $self->config(LoadFile($self->config->{config_file}));
-    }
+	if(exists $self->{configfile} && defined $self->{configfile}){
+		$self->config(LoadFile($self->{configfile}));
+	}
 
-    return $self->NEXT::setup;
+	if(exists $self->config->{config_file} && defined $self->config->{config_file}){
+		$self->config(LoadFile($self->config->{config_file}));
+	}
+
+	$self->maybe::next::method(@argv);
 }
 
 1;
@@ -134,7 +132,7 @@ __END__
 
 =head1 SEE ALSO
 
-L<App::CLI::Extension> L<NEXT> L<YAML::Syck>
+L<App::CLI::Extension> L<YAML::Syck>
 
 =head1 AUTHOR
 
