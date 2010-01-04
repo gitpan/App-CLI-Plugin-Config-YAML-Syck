@@ -36,3 +36,4 @@ t/lib/MyAppOption/YAMLTest.pm
 xt/perlcritic.t
 xt/pod.t
 xt/podspell.t
+SIGNATURE                                Public-key signature (added by MakeMaker)

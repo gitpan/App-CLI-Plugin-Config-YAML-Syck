@@ -20,10 +20,9 @@ no_index:
     - t
     - xt
 requires:
-  App::CLI::Extension: 1
+  App::CLI::Extension: 1.2
   Filter::Util::Call: 0
   YAML::Syck: 0
-  perl: 5.8.0
 resources:
   license: http://dev.perl.org/licenses/
-version: 1.0
+version: 1.2

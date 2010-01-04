@@ -8,7 +8,7 @@ App::CLI::Plugin::Config::YAML::Syck - for App::CLI::Extension config plugin mod
 
 =head1 VERSION
 
-1.0
+1.2
 
 =head1 SYNOPSIS
 
@@ -83,12 +83,11 @@ The priority of the config file (name of the execute file in the case of *myapp*
 =cut
 
 use strict;
-use 5.008;
 use FindBin qw($Script);
 use File::Spec;
 use YAML::Syck;
 
-our $VERSION = '1.0';
+our $VERSION = '1.2';
 our @CONFIG_SEARCH_PATH = ("/etc", "/usr/local/etc", $ENV{HOME});
 
 =pod
